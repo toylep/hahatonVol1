@@ -6,7 +6,10 @@ from datetime import timedelta
 
 class Specialization(models.Model):
     name = models.CharField(max_length=50)
+    users = models.ManyToManyField("auth.User", related_name='specs')
 
+    def __str__(self) -> str:
+        return self.name
 
 class MySession(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -1,7 +1,8 @@
 from rest_framework.serializers import (
     ModelSerializer,
     Serializer,
-    CharField
+    CharField,
+    StringRelatedField
     )
 from django.contrib.auth.models import User
 from events.serializers import DevEventSerializer
@@ -27,6 +28,15 @@ class UserCreateSerializer(ModelSerializer):
 
 class UserFullSerializer(ModelSerializer):
     devevents = DevEventSerializer(many=True)
+    specs = StringRelatedField(many=True)
     class Meta:
         model = User
-        fields = '__all__'
+        fields = [
+            'id',
+            'devevents',
+            'specs',
+            'username',
+            'first_name',
+            'last_name',
+            'is_staff',
+        ]

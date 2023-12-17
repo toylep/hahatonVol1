@@ -15,10 +15,20 @@ import uuid
 import string
 import random
 load_dotenv()
-
+from flask import Flask
+app = Flask(__name__)
 TOKEN = os.environ.get('BOT_TOKEN')
+bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
 
 dp = Dispatcher()
+
+@app.post('/spam')
+def spam(message:str):
+    bot.send_message(message)
+    return "200"
+
+
+
 
 def generate_random_string(length):
     letters = string.ascii_lowercase
@@ -72,11 +82,12 @@ async def developer_reg(message:types.Message):
 
 async def main() -> None:
     # Initialize Bot instance with a default parse mode which will be passed to all API calls
-    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
     # And the run events dispatching
     await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    asyncio.create_task(asyncio.to_thread(app.run()))
     asyncio.run(main())
+    

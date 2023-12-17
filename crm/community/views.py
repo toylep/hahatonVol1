@@ -59,3 +59,27 @@ class GetUserView(GenericAPIView):
         return Response(
             result
         )        
+
+
+class MatchUserView(GenericAPIView):
+
+    def get(self,request):
+        session_id = request.query_params['session_id']
+        session = MySession.objects.get(session_id=session_id)
+        user = User.objects.get(id=session.user_id)
+        match_list=[]
+        match_set =[]
+        for event in user.devevents.all():
+            match_list.extend(event.users.all())
+        user_set = set(match_list)
+        for u in user_set:
+            serializer = UserFullSerializer(u)
+            if u != user:
+                match_set.append({
+                    'user':serializer.data,
+                    'rating':(len(list(filter(list(user.specs.all()).__contains__,list(u.specs.all())))))
+                })
+        
+        return Response(match_set)
+
+
