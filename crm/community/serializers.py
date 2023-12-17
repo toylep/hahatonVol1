@@ -2,7 +2,9 @@ from rest_framework.serializers import (
     ModelSerializer,
     Serializer,
     CharField,
-    StringRelatedField
+    StringRelatedField,
+    ListField,
+    IntegerField,
     )
 from django.contrib.auth.models import User
 from events.serializers import DevEventSerializer
@@ -39,4 +41,5 @@ class UserFullSerializer(ModelSerializer):
             'first_name',
             'last_name',
             'is_staff',
+            'date_joined',
         ]

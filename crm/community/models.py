@@ -34,3 +34,6 @@ class MySession(models.Model):
 
     def delete_session(self):
         self.delete()
+
+
+# class 

@@ -10,7 +10,8 @@ from community.serializers import (
 from rest_framework.response import Response
 import uuid
 
-from events.models import DevEvent
+from community.models import Specialization
+
 
 
 class CreateUserView(CreateAPIView):
@@ -82,4 +83,33 @@ class MatchUserView(GenericAPIView):
         
         return Response(match_set)
 
+class UserSpecificationView(GenericAPIView):
+    
+    def post(self,request):
+        session_id = request.query_params['session_id']
+        session = MySession.objects.get(session_id=session_id)
+        user = User.objects.get(id=session.user_id)
+        data = request.data['specs']
+        for i in data:
+            user.specs.add(i)
+        return Response('success')
 
+
+class UserEventView(GenericAPIView):
+
+    def post(self,request):
+        session_id = request.query_params['session_id']
+        session = MySession.objects.get(session_id=session_id)
+        user = User.objects.get(id=session.user_id)
+        data = request.data['devevents']
+        for i in data:
+            user.devevents.add(i)
+        return Response('success')
+
+# class PullMessageSingleUserView(GenericAPIView):
+
+#     def post(self,request):
+
+# class PullMessageInEventUsersView(GenericAPIView):
+
+#     def post(self,request):
