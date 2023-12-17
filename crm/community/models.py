@@ -7,9 +7,6 @@ from datetime import timedelta
 class Specialization(models.Model):
     name = models.CharField(max_length=50)
 
-class ProfilePhoto(models.Model):
-    photo = models.ImageField(upload_to='files/')
-    user = models.OneToOneField('auth.User',on_delete=models.CASCADE)
 
 class MySession(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

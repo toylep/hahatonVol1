@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from rest_framework.generics import CreateAPIView,GenericAPIView
 from django.contrib.auth.models import User
-from community.models import ProfilePhoto
 from community.models import MySession
 from community.serializers import (
     UserCreateSerializer,
@@ -10,6 +9,9 @@ from community.serializers import (
     UserFullSerializer)
 from rest_framework.response import Response
 import uuid
+
+from events.models import DevEvent
+
 
 class CreateUserView(CreateAPIView):
     queryset = User.objects.all()
@@ -51,7 +53,7 @@ class GetUserView(GenericAPIView):
     def get(self,request):
         session_id = request.query_params['session_id']
         session = MySession.objects.get(session_id=session_id)
-        user = User.objects.get(pk=session.user_id)
+        user = User.objects.get(id=session.user_id)
         serializer = UserFullSerializer(user)
         result = dict(serializer.data)
         return Response(

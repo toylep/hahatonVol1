@@ -4,8 +4,7 @@ from rest_framework.serializers import (
     CharField
     )
 from django.contrib.auth.models import User
-
-
+from events.serializers import DevEventSerializer
 class UserTgTokenSerializer(Serializer):
     token =  CharField()
     user =  CharField()
@@ -27,6 +26,7 @@ class UserCreateSerializer(ModelSerializer):
 
 
 class UserFullSerializer(ModelSerializer):
+    devevents = DevEventSerializer(many=True)
     class Meta:
         model = User
         fields = '__all__'

@@ -13,4 +13,4 @@ class DevEvent(models.Model):
     start_date = models.DateTimeField(auto_now=False, auto_now_add=False)
     end_date = models.DateTimeField(auto_now=False, auto_now_add=False)
     event_type = models.OneToOneField(EventType, on_delete=models.CASCADE)
-    users = models.ManyToManyField("auth.User")
+    users = models.ManyToManyField(to="auth.User",related_name='devevents')
